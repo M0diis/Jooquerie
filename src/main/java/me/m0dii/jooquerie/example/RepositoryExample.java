@@ -17,7 +17,9 @@ public class RepositoryExample {
     public interface UserRepository extends Repository<User, Long> {
         List<User> findByUsername(String username);
 
-        List<User> findByEmail(String email);
+        List<User> findByUsernameAndEmail(String username, String email);
+
+        List<User> findLikeByEmail(String email);
 
         List<User> findAll();
 
@@ -57,22 +59,27 @@ public class RepositoryExample {
 
         User testUser = new User(1L, "john_doe", "john@gmail.com");
         User testUser2 = new User(2L, "admin", "admin@example.com");
+        User testUser3 = new User(3L, "tom", "tom@domain.com");
         entityManager.persist(testUser);
+        entityManager.persist(testUser2);
 
         UserRepository userRepo = RepositoryProxyFactory.createRepository(entityManager, UserRepository.class);
-        userRepo.save(testUser2);
+        userRepo.save(testUser3);
 
-        User user = userRepo.findById(1L);
+        User byId = userRepo.findById(1L);
         List<User> allUsers = userRepo.findAll();
-        List<User> johnDoe = userRepo.findByUsername("john_doe");
-        List<User> usersWithGmail = userRepo.findByEmail("gmail.com");
-        boolean exists = userRepo.existsByUsername("admin");
+        List<User> byUserName = userRepo.findByUsername("john_doe");
+        List<User> byUsernameAndEmail = userRepo.findByUsernameAndEmail("tom", "tom@domain.com");
+        List<User> likeByEmail = userRepo.findLikeByEmail("gmail.com");
+        boolean existsByUsername = userRepo.existsByUsername("admin");
         int count = userRepo.countByEmail("admin@example.com");
 
-        System.out.println("Found user: " + user);
-        System.out.println("User by username: " + johnDoe);
-        System.out.println("Users with Gmail: " + usersWithGmail);
-        System.out.println("Exists by username: " + exists);
+        System.out.println("Found user: " + byId);
+        System.out.println("User by username: " + byUserName);
+        System.out.println("User by username and email: " + byUsernameAndEmail);
+        System.out.println("All users: " + allUsers);
+        System.out.println("Users with Gmail: " + likeByEmail);
+        System.out.println("Exists by username: " + existsByUsername);
         System.out.println("Count by email: " + count);
     }
 }

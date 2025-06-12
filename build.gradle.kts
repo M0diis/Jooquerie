@@ -103,7 +103,7 @@ tasks.test {
 }
 
 tasks.jar {
-    exclude("me/m0dii/jooquerie/generated/**", "me/m0dii/jooquerie/example/**")
+    exclude("me/m0dii/jooquerie/example/**")
 }
 
 operator fun <T : XMLAppendable> T.invoke(block: T.() -> Unit) = this.apply(block)

@@ -1,9 +1,6 @@
-package me.m0dii.jooquerie.generated.tables;
+package me.m0dii.jooquerie.example.generated.tables;
 
-import me.m0dii.jooquerie.generated.records.UsersRecord;
-import org.jooq.Field;
-import org.jooq.Record;
-import org.jooq.Table;
+import me.m0dii.jooquerie.example.generated.records.UsersRecord;
 import org.jooq.TableField;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;

@@ -1,8 +1,8 @@
 package me.m0dii.jooquerie.example;
 
 import me.m0dii.jooquerie.dsl.impl.AbstractEntityMapper;
-import me.m0dii.jooquerie.generated.records.UsersRecord;
-import me.m0dii.jooquerie.generated.tables.Users;
+import me.m0dii.jooquerie.example.generated.records.UsersRecord;
+import me.m0dii.jooquerie.example.generated.tables.Users;
 import me.m0dii.jooquerie.model.User;
 
 import java.util.Map;
