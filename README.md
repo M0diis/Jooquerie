@@ -86,9 +86,13 @@ UserRepository userRepo = RepositoryProxyFactory.createRepository(entityManager,
 Use the repository to perform CRUD operations:
 ```java
 User testUser = new User(1L, "john_doe", "john@gmail.com");
+User testUser2 = new User(2L, "admin", "admin@example.com");
+User testUser3 = new User(3L, "tom", "tom@domain.com");
 
 UserRepository userRepo = RepositoryProxyFactory.createRepository(entityManager, UserRepository.class);
 userRepo.save(testUser);
+userRepo.save(testUser2);
+userRepo.save(testUser3);
 
 User byId = userRepo.findById(1L);
 List<User> allUsers = userRepo.findAll();
