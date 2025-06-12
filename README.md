@@ -1,4 +1,5 @@
 # Jooquerie
+[![Java CI with Gradle](https://github.com/M0diis/Jooquerie/actions/workflows/gradle.yml/badge.svg)](https://github.com/M0diis/Jooquerie/actions/workflows/gradle.yml)
 
 Jooquerie is a Java library that provides a simplified abstraction layer over jOOQ, making it easier to work with
 databases in a type-safe manner.
