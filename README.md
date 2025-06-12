@@ -46,19 +46,19 @@ cd Jooquerie
 ### Mapper
 
 ```java
-public class UserMapper extends AbstractEntityMapper<User> {
+public class UserMapper extends AbstractEntityMapper<User, UsersRecord> {
     public UserMapper() {
-        super(Users.USERS, Users.USERS.ID);
-
-        // Define mappings between fields and entity properties
-        mapField(Users.USERS.ID, User::getId, User::setId);
-        mapField(Users.USERS.USERNAME, User::getUsername, User::setUsername);
-        mapField(Users.USERS.EMAIL, User::getEmail, User::setEmail);
-    }
-
-    @Override
-    public User createEntity() {
-        return new User();
+        super(Users.USERS, Users.USERS.ID,
+                Map.of(
+                        Users.USERS.ID, User::getId,
+                        Users.USERS.USERNAME, User::getUsername,
+                        Users.USERS.EMAIL, User::getEmail
+                ), userRecord -> new User(
+                        userRecord.get(Users.USERS.ID, Long.class),
+                        userRecord.get(Users.USERS.USERNAME, String.class),
+                        userRecord.get(Users.USERS.EMAIL, String.class)
+                )
+        );
     }
 }
 ```

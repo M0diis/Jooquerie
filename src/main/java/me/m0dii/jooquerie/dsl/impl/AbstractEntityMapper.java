@@ -11,12 +11,12 @@ public abstract class AbstractEntityMapper<T, R extends Record> implements Entit
     private final Table<R> table;
     private final Field<?> idField;
     private final Map<Field<?>, Function<T, Object>> fieldGetters;
-    private final java.util.function.Function<Record, T> recordMapper;
+    private final Function<Record, T> recordMapper;
 
     protected AbstractEntityMapper(Table<R> table,
-                                Field<?> idField,
-                                Map<Field<?>, Function<T, Object>> fieldGetters,
-                                java.util.function.Function<Record, T> recordMapper) {
+                                   Field<?> idField,
+                                   Map<Field<?>, Function<T, Object>> fieldGetters,
+                                   Function<Record, T> recordMapper) {
         this.table = table;
         this.idField = idField;
         this.fieldGetters = fieldGetters;

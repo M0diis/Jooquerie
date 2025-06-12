@@ -2,11 +2,8 @@ package me.m0dii.jooquerie.example;
 
 import me.m0dii.jooquerie.dsl.EntityManager;
 import me.m0dii.jooquerie.dsl.SessionFactory;
-import me.m0dii.jooquerie.dsl.impl.EntityMapperBuilder;
 import me.m0dii.jooquerie.dsl.repository.Repository;
 import me.m0dii.jooquerie.dsl.repository.RepositoryProxyFactory;
-import me.m0dii.jooquerie.generated.records.UsersRecord;
-import me.m0dii.jooquerie.generated.tables.Users;
 import me.m0dii.jooquerie.model.User;
 import org.h2.jdbcx.JdbcDataSource;
 import org.jooq.DSLContext;
@@ -19,9 +16,13 @@ public class RepositoryExample {
 
     public interface UserRepository extends Repository<User, Long> {
         List<User> findByUsername(String username);
+
         List<User> findByEmail(String email);
+
         List<User> findAll();
+
         boolean existsByUsername(String username);
+
         int countByEmail(String email);
     }
 
@@ -36,17 +37,21 @@ public class RepositoryExample {
 
         SessionFactory sessionFactory = new SessionFactory(h2DataSource);
 
-        sessionFactory.registerEntityMapper(User.class,
-                new EntityMapperBuilder<User, UsersRecord>(Users.USERS)
-                        .withId(Users.USERS.ID, User::getId)
-                        .withField(Users.USERS.USERNAME, User::getUsername)
-                        .withField(Users.USERS.EMAIL, User::getEmail)
-                        .withRecordMapper(record -> new User(
-                                record.get(Users.USERS.ID, Long.class),
-                                record.get(Users.USERS.USERNAME, String.class),
-                                record.get(Users.USERS.EMAIL, String.class)
-                        ))
-                        .build());
+        UserMapper userMapper = new UserMapper();
+        sessionFactory.registerEntityMapper(User.class, userMapper);
+
+        // Or using EntityMapperBuilder directly:
+        // sessionFactory.registerEntityMapper(User.class,
+        //         new EntityMapperBuilder<User, UsersRecord>(Users.USERS)
+        //                 .withId(Users.USERS.ID, User::getId)
+        //                 .withField(Users.USERS.USERNAME, User::getUsername)
+        //                 .withField(Users.USERS.EMAIL, User::getEmail)
+        //                 .withRecordMapper(record -> new User(
+        //                         record.get(Users.USERS.ID, Long.class),
+        //                         record.get(Users.USERS.USERNAME, String.class),
+        //                         record.get(Users.USERS.EMAIL, String.class)
+        //                 ))
+        //                 .build());
 
         EntityManager entityManager = sessionFactory.createEntityManager(SQLDialect.H2);
 
