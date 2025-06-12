@@ -63,6 +63,45 @@ public class UserMapper extends AbstractEntityMapper<User, UsersRecord> {
 }
 ```
 
+### Repository
+
+Create a repository interface for your entity. This interface extends `Repository<T, ID>` where `T` is your entity type and `ID` is the type of the entity's identifier.
+```java
+public interface UserRepository extends Repository<User, Long> {
+    List<User> findByUsername(String username);
+    List<User> findByUsernameAndEmail(String username, String email);
+    List<User> findLikeByEmail(String email);
+    List<User> findAll();
+    
+    boolean existsByUsername(String username);
+    int countByEmail(String email);
+}
+```
+
+Create a repository using RepositoryProxyFactory:
+```java
+UserRepository userRepo = RepositoryProxyFactory.createRepository(entityManager, UserRepository.class);
+```
+
+Use the repository to perform CRUD operations:
+```java
+User testUser = new User(1L, "john_doe", "john@gmail.com");
+
+UserRepository userRepo = RepositoryProxyFactory.createRepository(entityManager, UserRepository.class);
+userRepo.save(testUser);
+
+User byId = userRepo.findById(1L);
+List<User> allUsers = userRepo.findAll();
+List<User> byUserName = userRepo.findByUsername("john_doe");
+List<User> byUsernameAndEmail = userRepo.findByUsernameAndEmail("tom", "tom@domain.com");
+List<User> likeByEmail = userRepo.findLikeByEmail("gmail.com");
+boolean existsByUsername = userRepo.existsByUsername("admin");
+int count = userRepo.countByEmail("admin@example.com");
+```
+
+Note: you will also need to create a `SessionFactory` and `EntityManager` and a mapper to manage your entities and perform operations on them. 
+See the example below for a complete setup.
+
 ### Example
 
 Full example can be found in `me.m0dii.jooquerie.example` package.
